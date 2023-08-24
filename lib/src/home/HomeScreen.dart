@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Ana Sayfa ded',
+              'Ana Sayfa',
               style: Theme.of(context).textTheme.headline4,
             ),
           ],

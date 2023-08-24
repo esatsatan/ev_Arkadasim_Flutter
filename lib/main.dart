@@ -1,3 +1,4 @@
+import 'package:ev_arkadasim/src/login/SignIn.dart';
 import 'package:flutter/material.dart';
 import '../src/Home/HomeScreen.dart';
 
@@ -11,12 +12,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const HomeScreen()
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const SignIn());
   }
 }
-
