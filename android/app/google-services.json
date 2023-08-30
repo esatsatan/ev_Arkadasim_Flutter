@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "97283574054",
+    "project_id": "uniapp-1efca",
+    "storage_bucket": "uniapp-1efca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:97283574054:android:627dc00c96d067133099e7",
+        "android_client_info": {
+          "package_name": "com.example.ev_arkadasim"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "97283574054-2u37kb60o938cdgrkkpqjr14j5a1b500.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCO_1vwXONiwlrh7UDPUewG_CunbYjGXdY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "97283574054-2u37kb60o938cdgrkkpqjr14j5a1b500.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

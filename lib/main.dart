@@ -1,9 +1,14 @@
+import 'package:ev_arkadasim/src/home/HomeScreen.dart';
 import 'package:ev_arkadasim/src/login/SignIn.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import '../src/Home/HomeScreen.dart';
 import 'src/login/SignUp.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -17,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const SignUp(),
+      home: SignIn(),
     );
   }
 }

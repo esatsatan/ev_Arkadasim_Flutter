@@ -1,3 +1,4 @@
+import 'package:ev_arkadasim/src/login/SignIn.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -14,11 +15,14 @@ class _SignUpState extends State<SignUp> {
   final GlobalKey<FormState> _formKey = GlobalKey();
 
   final FocusNode _focusNodeEmail = FocusNode();
+  final FocusNode _focusNodeusername = FocusNode();
+  final FocusNode _focusNodeUni = FocusNode();
   final FocusNode _focusNodePassword = FocusNode();
   final FocusNode _focusNodeConfirmPassword = FocusNode();
   final TextEditingController _controllerUsername = TextEditingController();
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
+  final TextEditingController _controllerUni = TextEditingController();
   final TextEditingController _controllerConFirmPassword =
       TextEditingController();
 
@@ -53,9 +57,10 @@ class _SignUpState extends State<SignUp> {
               const SizedBox(height: 35),
               TextFormField(
                 controller: _controllerUsername,
+                focusNode: _focusNodeusername,
                 keyboardType: TextInputType.name,
                 decoration: InputDecoration(
-                  labelText: "Username",
+                  labelText: "Ad ve Soyad",
                   prefixIcon: const Icon(Icons.person_outline),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -73,7 +78,7 @@ class _SignUpState extends State<SignUp> {
 
                   return null;
                 },
-                onEditingComplete: () => _focusNodeEmail.requestFocus(),
+                onEditingComplete: () => _focusNodeusername.requestFocus(),
               ),
               const SizedBox(height: 10),
               TextFormField(
@@ -98,7 +103,7 @@ class _SignUpState extends State<SignUp> {
                   }
                   return null;
                 },
-                onEditingComplete: () => _focusNodePassword.requestFocus(),
+                onEditingComplete: () => _focusNodeEmail.requestFocus(),
               ),
               const SizedBox(height: 10),
               TextFormField(
@@ -138,22 +143,12 @@ class _SignUpState extends State<SignUp> {
               ),
               const SizedBox(height: 10),
               TextFormField(
-                controller: _controllerConFirmPassword,
-                obscureText: _obscurePassword,
-                focusNode: _focusNodeConfirmPassword,
-                keyboardType: TextInputType.visiblePassword,
+                controller: _controllerUni,
+                focusNode: _focusNodeUni,
+                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                  labelText: "Okuduğunuz Üniversite",
-                  prefixIcon: const Icon(Icons.cast_for_education_rounded),
-                  suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _obscurePassword = !_obscurePassword;
-                        });
-                      },
-                      icon: _obscurePassword
-                          ? const Icon(Icons.visibility_outlined)
-                          : const Icon(Icons.visibility_off_outlined)),
+                  labelText: "Üniversite",
+                  prefixIcon: const Icon(Icons.email_outlined),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -163,12 +158,13 @@ class _SignUpState extends State<SignUp> {
                 ),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
-                    return "Please enter password.";
-                  } else if (value != _controllerPassword.text) {
-                    return "Password doesn't match.";
+                    return "Please enter email.";
+                  } else {
+                    return "Invalid email";
                   }
                   return null;
                 },
+                onEditingComplete: () => _focusNodeUni.requestFocus(),
               ),
               const SizedBox(height: 50),
               Column(
@@ -177,8 +173,9 @@ class _SignUpState extends State<SignUp> {
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size.fromHeight(50),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(10),
                       ),
+                      backgroundColor: Colors.blue,
                     ),
                     onPressed: () {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -198,8 +195,34 @@ class _SignUpState extends State<SignUp> {
 
                       Navigator.pop(context);
                     },
-                    child: const Text("Register"),
+                    child: const Text(
+                      "Kayıt ol",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('Zaten hesabınız var mı?'),
+                      TextButton(
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => SignIn()),
+                        ),
+                        child: Text(
+                          "Giriş Yapın",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
                 ],
               ),
             ],

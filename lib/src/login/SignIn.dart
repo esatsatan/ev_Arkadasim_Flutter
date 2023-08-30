@@ -1,4 +1,5 @@
 import 'package:ev_arkadasim/src/home/HomeScreen.dart';
+import 'package:ev_arkadasim/src/login/SignUp.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -104,9 +105,10 @@ class _SignInState extends State<SignIn> {
                 children: [
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
                       minimumSize: const Size.fromHeight(50),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                     onPressed: () {
@@ -126,7 +128,13 @@ class _SignInState extends State<SignIn> {
                       }
                       */
                     },
-                    child: const Text("Giriş Yap"),
+                    child: const Text(
+                      "Giriş Yap",
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -140,7 +148,7 @@ class _SignInState extends State<SignIn> {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return HomeScreen();
+                                return SignUp();
                               },
                             ),
                           );
