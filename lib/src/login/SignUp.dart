@@ -1,4 +1,6 @@
+import 'package:ev_arkadasim/src/authentication/FirebaseAuth.dart';
 import 'package:ev_arkadasim/src/login/SignIn.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -13,7 +15,6 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   final GlobalKey<FormState> _formKey = GlobalKey();
-
   final FocusNode _focusNodeEmail = FocusNode();
   final FocusNode _focusNodeusername = FocusNode();
   final FocusNode _focusNodeUni = FocusNode();
@@ -27,6 +28,8 @@ class _SignUpState extends State<SignUp> {
       TextEditingController();
 
   bool _obscurePassword = true;
+
+  AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -72,10 +75,7 @@ class _SignUpState extends State<SignUp> {
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
                     return "Please enter username.";
-                  } else {
-                    return "Username is already registered.";
                   }
-
                   return null;
                 },
                 onEditingComplete: () => _focusNodeusername.requestFocus(),
@@ -97,9 +97,7 @@ class _SignUpState extends State<SignUp> {
                 ),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
-                    return "Please enter email.";
-                  } else {
-                    return "Invalid email";
+                    return "Email giriniz";
                   }
                   return null;
                 },
@@ -132,9 +130,7 @@ class _SignUpState extends State<SignUp> {
                 ),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
-                    return "Please enter password.";
-                  } else if (value.length < 8) {
-                    return "Password must be at least 8 character.";
+                    return "Lütfen Şifre giriniz";
                   }
                   return null;
                 },
@@ -159,8 +155,6 @@ class _SignUpState extends State<SignUp> {
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
                     return "Please enter email.";
-                  } else {
-                    return "Invalid email";
                   }
                   return null;
                 },
@@ -178,22 +172,39 @@ class _SignUpState extends State<SignUp> {
                       backgroundColor: Colors.blue,
                     ),
                     onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          width: 200,
-                          backgroundColor:
-                              Theme.of(context).colorScheme.secondary,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          behavior: SnackBarBehavior.floating,
-                          content: const Text("Registered Successfully"),
-                        ),
-                      );
-
-                      _formKey.currentState?.reset();
-
-                      Navigator.pop(context);
+                      if (_formKey.currentState!.validate()) {
+                        _authService
+                            .userLogin(
+                                _controllerEmail.text, _controllerPassword.text)
+                            .then(
+                              (value) => {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    width: 200,
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.secondary,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    behavior: SnackBarBehavior.floating,
+                                    content: const Text(
+                                      "Mailinize doğrulama linki gçnderildi",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SignIn(),
+                                  ),
+                                ),
+                                _authService.sendVerificationEmail(),
+                              },
+                            );
+                      }
                     },
                     child: const Text(
                       "Kayıt ol",

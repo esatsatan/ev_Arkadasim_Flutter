@@ -61,10 +61,7 @@ class _SignInState extends State<SignIn> {
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
                     return "Please enter username.";
-                  } else {
-                    return "Username is not registered.";
                   }
-
                   return null;
                 },
               ),
@@ -112,21 +109,8 @@ class _SignInState extends State<SignIn> {
                       ),
                     ),
                     onPressed: () {
-                      /*
-                      if (_formKey.currentState?.validate() ?? false) {
-                        _boxLogin.put("loginStatus", true);
-                        _boxLogin.put("userName", _controllerUsername.text);
-
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return HomeScreen();
-                            },
-                          ),
-                        );
-                      }
-                      */
+                      // check if user is verificated email.
+                      
                     },
                     child: const Text(
                       "Giriş Yap",
