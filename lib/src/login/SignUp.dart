@@ -1,4 +1,5 @@
 import 'package:ev_arkadasim/src/authentication/FirebaseAuth.dart';
+import 'package:ev_arkadasim/src/authentication/VerifyEmailScreen.dart';
 import 'package:ev_arkadasim/src/login/SignIn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -174,10 +175,13 @@ class _SignUpState extends State<SignUp> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         _authService
-                            .userLogin(
-                                _controllerEmail.text, _controllerPassword.text)
+                            .createUser(
+                              _controllerEmail.text.trim(),
+                              _controllerPassword.text.trim(),
+                            )
                             .then(
                               (value) => {
+                                /*
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     width: 200,
@@ -195,13 +199,14 @@ class _SignUpState extends State<SignUp> {
                                     ),
                                   ),
                                 ),
+                                */
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => SignIn(),
+                                    builder: (context) => VerifyEmailScreen(),
                                   ),
                                 ),
-                                _authService.sendVerificationEmail(),
+                                //_authService.sendVerificationEmail(),
                               },
                             );
                       }

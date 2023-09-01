@@ -1,3 +1,4 @@
+import 'package:ev_arkadasim/src/authentication/FirebaseAuth.dart';
 import 'package:ev_arkadasim/src/home/HomeScreen.dart';
 import 'package:ev_arkadasim/src/login/SignUp.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,6 +22,7 @@ class _SignInState extends State<SignIn> {
   final TextEditingController _controllerPassword = TextEditingController();
 
   bool _obscurePassword = true;
+  AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
