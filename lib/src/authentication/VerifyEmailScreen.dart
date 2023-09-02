@@ -55,7 +55,86 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
 
   @override
   Widget build(BuildContext context) => isEmailVerified
-      ? const HomeScreen()
+      ? Container(
+          width: double.infinity,
+          height: double.infinity,
+          color: Colors.white,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: double.infinity,
+                height: 400,
+                margin: EdgeInsets.only(left: 40, right: 40),
+                padding: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(
+                    20,
+                  ),
+                ),
+                //color: Colors.grey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.verified_user_outlined,
+                      size: 100,
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Text(
+                      'Mail adresiniz başarıyla.',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          textBaseline: TextBaseline.alphabetic,
+                          decoration: TextDecoration.none),
+                    ),
+                    Text(
+                      'doğrulandı.',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          textBaseline: TextBaseline.alphabetic,
+                          decoration: TextDecoration.none),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Düğmeye tıklanınca yapılacak işlemi burada tanımlayın.
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (context) => HomeScreen(),
+                          ),
+                          (route) => false,
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        backgroundColor: Colors.white,
+                      ),
+                      child: Text(
+                        "Devam et",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        )
       : Scaffold(
           appBar: AppBar(
             title: Text('Email doğrulayın'),

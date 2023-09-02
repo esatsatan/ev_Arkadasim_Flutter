@@ -181,6 +181,7 @@ class _SignUpState extends State<SignUp> {
                             )
                             .then(
                               (value) => {
+
                                 /*
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
@@ -200,7 +201,7 @@ class _SignUpState extends State<SignUp> {
                                   ),
                                 ),
                                 */
-                                Navigator.push(
+                                Navigator.push( 
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => VerifyEmailScreen(),

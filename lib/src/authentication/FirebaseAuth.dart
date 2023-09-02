@@ -17,6 +17,7 @@ class AuthService {
       await _auth.currentUser?.sendEmailVerification();
     } catch (e) {
       print("error caused by : ${e.toString()}");
+      
     }
   }
 }

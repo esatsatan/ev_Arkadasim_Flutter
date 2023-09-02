@@ -1,3 +1,4 @@
+import 'package:ev_arkadasim/src/authentication/VerifyEmailScreen.dart';
 import 'package:ev_arkadasim/src/home/HomeScreen.dart';
 import 'package:ev_arkadasim/src/login/SignIn.dart';
 import 'package:firebase_core/firebase_core.dart';
