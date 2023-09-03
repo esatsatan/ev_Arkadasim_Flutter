@@ -1,6 +1,7 @@
 import 'package:ev_arkadasim/src/authentication/FirebaseAuth.dart';
 import 'package:ev_arkadasim/src/home/HomeScreen.dart';
 import 'package:ev_arkadasim/src/login/SignUp.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -23,7 +24,7 @@ class _SignInState extends State<SignIn> {
 
   bool _obscurePassword = true;
   AuthService _authService = AuthService();
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,7 +113,6 @@ class _SignInState extends State<SignIn> {
                     ),
                     onPressed: () {
                       // check if user is verificated email.
-                      
                     },
                     child: const Text(
                       "Giriş Yap",

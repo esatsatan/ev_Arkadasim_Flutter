@@ -1,6 +1,7 @@
 import 'package:ev_arkadasim/src/authentication/VerifyEmailScreen.dart';
 import 'package:ev_arkadasim/src/home/HomeScreen.dart';
 import 'package:ev_arkadasim/src/login/SignIn.dart';
+import 'package:ev_arkadasim/src/login/SplashScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import '../src/Home/HomeScreen.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SignIn(),
+      home: SplashScreen(),
     );
   }
 }

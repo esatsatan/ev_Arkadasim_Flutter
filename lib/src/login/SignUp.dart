@@ -1,5 +1,6 @@
 import 'package:ev_arkadasim/src/authentication/FirebaseAuth.dart';
 import 'package:ev_arkadasim/src/authentication/VerifyEmailScreen.dart';
+import 'package:ev_arkadasim/src/home/HomeScreen.dart';
 import 'package:ev_arkadasim/src/login/SignIn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,10 +28,9 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController _controllerUni = TextEditingController();
   final TextEditingController _controllerConFirmPassword =
       TextEditingController();
-
+  AuthService _authService = AuthService();
   bool _obscurePassword = true;
 
-  AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +181,6 @@ class _SignUpState extends State<SignUp> {
                             )
                             .then(
                               (value) => {
-
                                 /*
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
@@ -201,7 +200,7 @@ class _SignUpState extends State<SignUp> {
                                   ),
                                 ),
                                 */
-                                Navigator.push( 
+                                Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => VerifyEmailScreen(),
