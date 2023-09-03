@@ -31,7 +31,6 @@ class _SignUpState extends State<SignUp> {
   AuthService _authService = AuthService();
   bool _obscurePassword = true;
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -176,12 +175,20 @@ class _SignUpState extends State<SignUp> {
                       if (_formKey.currentState!.validate()) {
                         _authService
                             .createUser(
-                              _controllerEmail.text.trim(),
-                              _controllerPassword.text.trim(),
-                            )
-                            .then(
-                              (value) => {
-                                /*
+                                email: _controllerEmail.text,
+                                password: _controllerPassword.text,
+                                username: _controllerUsername.text,
+                                university: _controllerUni.text)
+                            .then((value) => {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => VerifyEmailScreen(),
+                                    ),
+                                  ),
+                                });
+
+                        /*
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     width: 200,
@@ -200,15 +207,6 @@ class _SignUpState extends State<SignUp> {
                                   ),
                                 ),
                                 */
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => VerifyEmailScreen(),
-                                  ),
-                                ),
-                                //_authService.sendVerificationEmail(),
-                              },
-                            );
                       }
                     },
                     child: const Text(

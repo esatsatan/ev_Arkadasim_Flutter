@@ -19,12 +19,12 @@ class _SignInState extends State<SignIn> {
   final GlobalKey<FormState> _formKey = GlobalKey();
 
   final FocusNode _focusNodePassword = FocusNode();
-  final TextEditingController _controllerUsername = TextEditingController();
-  final TextEditingController _controllerPassword = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   bool _obscurePassword = true;
   AuthService _authService = AuthService();
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +48,7 @@ class _SignInState extends State<SignIn> {
               ),
               const SizedBox(height: 60),
               TextFormField(
-                controller: _controllerUsername,
+                controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   labelText: "Email",
@@ -70,7 +70,7 @@ class _SignInState extends State<SignIn> {
               ),
               const SizedBox(height: 10),
               TextFormField(
-                controller: _controllerPassword,
+                controller: _passwordController,
                 focusNode: _focusNodePassword,
                 obscureText: _obscurePassword,
                 keyboardType: TextInputType.visiblePassword,
@@ -100,7 +100,7 @@ class _SignInState extends State<SignIn> {
                   return null;
                 },
               ),
-              const SizedBox(height: 60),
+              const SizedBox(height: 20),
               Column(
                 children: [
                   ElevatedButton(
@@ -112,7 +112,9 @@ class _SignInState extends State<SignIn> {
                       ),
                     ),
                     onPressed: () {
-                      // check if user is verificated email.
+                      if (_formKey.currentState!.validate()) {
+                        // user login process
+                      }
                     },
                     child: const Text(
                       "Giriş Yap",
@@ -121,6 +123,9 @@ class _SignInState extends State<SignIn> {
                           fontWeight: FontWeight.bold,
                           color: Colors.white),
                     ),
+                  ),
+                  SizedBox(
+                    height: 30,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
