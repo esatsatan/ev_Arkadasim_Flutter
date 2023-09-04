@@ -30,6 +30,7 @@ class _SignUpState extends State<SignUp> {
       TextEditingController();
   AuthService _authService = AuthService();
   bool _obscurePassword = true;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -173,6 +174,9 @@ class _SignUpState extends State<SignUp> {
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
+                        setState(() {
+                          _isLoading = true;
+                        });
                         _authService
                             .createUser(
                                 email: _controllerEmail.text,
@@ -187,26 +191,9 @@ class _SignUpState extends State<SignUp> {
                                     ),
                                   ),
                                 });
-
-                        /*
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    width: 200,
-                                    backgroundColor:
-                                        Theme.of(context).colorScheme.secondary,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    behavior: SnackBarBehavior.floating,
-                                    content: const Text(
-                                      "Mailinize doğrulama linki gçnderildi",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                */
+                        setState(() {
+                          _isLoading = false;
+                        });
                       }
                     },
                     child: const Text(

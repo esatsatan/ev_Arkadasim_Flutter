@@ -28,20 +28,26 @@ class AuthService {
     }
   }
 
-  Future<User?> loginUser(
+  Future<void> loginUser(
       {required String email, required String password}) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
-    } catch (error) {
+      final UserCredential authresult = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      final User? user = authresult.user;
+      
+    } on FirebaseAuthException catch (error) {
       print('error caused by: $error');
     }
   }
 
   Future sendVerificationEmail() async {
+    String res = "Some Error occureed";
     try {
       await _auth.currentUser?.sendEmailVerification();
+      res = "success";
     } catch (e) {
       print("error caused by : ${e.toString()}");
+      res = e.toString();
     }
   }
 
