@@ -82,141 +82,150 @@ class _SignInState extends State<SignIn> {
             Colors.white, //Theme.of(context).colorScheme.secondaryContainer,
         body: Form(
           key: _formKey,
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(30.0),
-            child: Column(
-              children: [
-                const SizedBox(height: 150),
-                Text(
-                  "Hoşgeldiniz",
-                  style: Theme.of(context).textTheme.headlineLarge,
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  "Hesabınıza Giriş yapın",
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-                const SizedBox(height: 60),
-                TextFormField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    labelText: "Email",
-                    prefixIcon: const Icon(Icons.email_outlined),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+          child: _isLoading
+              ? Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: Center(
+                    child: CircularProgressIndicator(color: Colors.black),
                   ),
-                  onEditingComplete: () => _focusNodePassword.requestFocus(),
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return "Please enter username.";
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 10),
-                TextFormField(
-                  controller: _passwordController,
-                  focusNode: _focusNodePassword,
-                  obscureText: _obscurePassword,
-                  keyboardType: TextInputType.visiblePassword,
-                  decoration: InputDecoration(
-                    labelText: "Şifre",
-                    prefixIcon: const Icon(Icons.password_outlined),
-                    suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _obscurePassword = !_obscurePassword;
-                          });
-                        },
-                        icon: _obscurePassword
-                            ? const Icon(Icons.visibility_outlined)
-                            : const Icon(Icons.visibility_off_outlined)),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return "Please enter password.";
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 20),
-                Column(
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                        minimumSize: const Size.fromHeight(50),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
+                )
+              : SingleChildScrollView(
+                  padding: const EdgeInsets.all(30.0),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 150),
+                      Text(
+                        "Hoşgeldiniz",
+                        style: Theme.of(context).textTheme.headlineLarge,
                       ),
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          // user login process
-                          setState(() {
-                            _isLoading = true;
-                          });
-                          loginUser(
-                              email: _emailController.text.trim(),
-                              password: _passwordController.text.trim());
-                          setState(() {
-                            _isLoading = false;
-                          });
-                          //.catchError((error) {});
-                        }
-                      },
-                      child: _isLoading
-                          ? const Center(
-                              child: CircularProgressIndicator(),
-                            )
-                          : const Text(
-                              "Giriş Yap",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text("Hesabınız yok mu?"),
-                        TextButton(
-                          onPressed: () {
-                            _formKey.currentState?.reset();
-
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return SignUp();
-                                },
-                              ),
-                            );
-                          },
-                          child: const Text("Kayıt olun"),
+                      const SizedBox(height: 10),
+                      Text(
+                        "Hesabınıza Giriş yapın",
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      const SizedBox(height: 60),
+                      TextFormField(
+                        controller: _emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          labelText: "Email",
+                          prefixIcon: const Icon(Icons.email_outlined),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
-                      ],
-                    ),
-                  ],
+                        onEditingComplete: () =>
+                            _focusNodePassword.requestFocus(),
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please enter username.";
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      TextFormField(
+                        controller: _passwordController,
+                        focusNode: _focusNodePassword,
+                        obscureText: _obscurePassword,
+                        keyboardType: TextInputType.visiblePassword,
+                        decoration: InputDecoration(
+                          labelText: "Şifre",
+                          prefixIcon: const Icon(Icons.password_outlined),
+                          suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _obscurePassword = !_obscurePassword;
+                                });
+                              },
+                              icon: _obscurePassword
+                                  ? const Icon(Icons.visibility_outlined)
+                                  : const Icon(Icons.visibility_off_outlined)),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please enter password.";
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      Column(
+                        children: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              minimumSize: const Size.fromHeight(50),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                // user login process
+                                setState(() {
+                                  _isLoading = true;
+                                });
+                                loginUser(
+                                    email: _emailController.text.trim(),
+                                    password: _passwordController.text.trim());
+                                setState(() {
+                                  _isLoading = false;
+                                });
+                                //.catchError((error) {});
+                              }
+                            },
+                            child: _isLoading
+                                ? const Center(
+                                    child: CircularProgressIndicator(),
+                                  )
+                                : const Text(
+                                    "Giriş Yap",
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text("Hesabınız yok mu?"),
+                              TextButton(
+                                onPressed: () {
+                                  _formKey.currentState?.reset();
+
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return SignUp();
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: const Text("Kayıt olun"),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
-          ),
         ),
       );
     }
