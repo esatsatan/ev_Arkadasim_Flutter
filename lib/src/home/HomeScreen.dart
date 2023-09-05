@@ -18,7 +18,10 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   AuthService _authService = AuthService();
   User? user = FirebaseAuth.instance.currentUser;
- 
+
+  //search textfield properties
+  final TextEditingController _searchController = TextEditingController();
+  final FocusNode _focusNodePassword = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -44,17 +47,38 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Ana Sayfa',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: TextField(
+                        maxLines: 1,
+                        controller: _searchController,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 15,
+                          ),
+                          prefixIcon: Icon(Icons.search_sharp),
+                          hintText: "Üniversite Ara",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 25,
+              ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: const BottomNavBar(),

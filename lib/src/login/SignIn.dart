@@ -22,6 +22,8 @@ class _SignInState extends State<SignIn> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  //bool isLoading = false;
+
   bool _obscurePassword = true;
   //AuthService _authService = AuthService();
   bool _isLoading = false;
@@ -58,7 +60,7 @@ class _SignInState extends State<SignIn> {
             ),
             behavior: SnackBarBehavior.floating,
             content: const Text(
-              "Şifrenizi tekrar deneyiniz",
+              "Böyle bir kullanıcı bulunamadı.",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
               ),
@@ -182,7 +184,7 @@ class _SignInState extends State<SignIn> {
                                 setState(() {
                                   _isLoading = false;
                                 });
-                                //.catchError((error) {});
+                                
                               }
                             },
                             child: _isLoading
