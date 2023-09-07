@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ev_arkadasim/src/model/user.dart' as model;
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
@@ -16,12 +17,14 @@ class AuthService {
           email: email, password: password);
 
       print(credential.user!.uid);
-      await _firestore.collection('users').add({
-        'username': username,
-        'email': email,
-        'password': password,
-        'university': university,
-      });
+
+      model.User user = model.User(
+          username: username,
+          email: email,
+          password: password,
+          university: university);
+
+      await _firestore.collection('users').doc(credential.user!.uid).set(user.toJson());
       res = "Success";
     } on FirebaseAuthException catch (e) {
       print(e);
@@ -34,7 +37,6 @@ class AuthService {
       final UserCredential authresult = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       final User? user = authresult.user;
-      
     } on FirebaseAuthException catch (error) {
       print('error caused by: $error');
     }

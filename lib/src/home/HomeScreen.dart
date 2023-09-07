@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ev_arkadasim/src/componets/BottomNavigationBar.dart';
 import 'package:ev_arkadasim/src/login/SignIn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,6 +19,36 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   AuthService _authService = AuthService();
   User? user = FirebaseAuth.instance.currentUser;
+  String username = "";
+  String email = "";
+  String password = "";
+  String university = "";
+
+  @override
+  void initState() {
+    super.initState();
+    print('kullanıcı idsi : ${FirebaseAuth.instance.currentUser!.uid}');
+    getUsername();
+  }
+
+  Future getUsername() async {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .get()
+        .then((DocumentSnapshot snapshot) {
+      if (snapshot.exists) {
+        print('data: ${snapshot.data()}');
+        setState(() {
+          username = snapshot.data().toString();
+        });
+      } else {
+        print('Veritabanında böyle bir döküman yok.');
+      }
+    }).catchError((error) {
+      print('bir hata oluştu çünlü : $error');
+    });
+  }
 
   //search textfield properties
   final TextEditingController _searchController = TextEditingController();
@@ -73,6 +104,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ],
+              ),
+              Center(
+                child: Text('$username'),
               ),
               SizedBox(
                 height: 25,
