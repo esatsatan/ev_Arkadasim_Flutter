@@ -24,7 +24,10 @@ class AuthService {
           password: password,
           university: university);
 
-      await _firestore.collection('users').doc(credential.user!.uid).set(user.toJson());
+      await _firestore
+          .collection('users')
+          .doc(credential.user!.uid)
+          .set(user.toJson());
       res = "Success";
     } on FirebaseAuthException catch (e) {
       print(e);
@@ -37,8 +40,9 @@ class AuthService {
       final UserCredential authresult = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       final User? user = authresult.user;
+      print('OTURUM AÇILDI!!');
     } on FirebaseAuthException catch (error) {
-      print('error caused by: $error');
+      print('oturum açılamadı çünkü : $error');
     }
   }
 

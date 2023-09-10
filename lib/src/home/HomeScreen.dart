@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ev_arkadasim/src/componets/BottomNavigationBar.dart';
 import 'package:ev_arkadasim/src/login/SignIn.dart';
@@ -32,21 +34,32 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future getUsername() async {
-    FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('users')
         .doc(user!.uid)
         .get()
         .then((DocumentSnapshot snapshot) {
       if (snapshot.exists) {
-        print('data: ${snapshot.data()}');
+        final data = snapshot.data() as Map<String, dynamic>;
+
+        String name = data['username'];
+        String email = data['email'];
+        String password = data['password'];
+        String university = data['university'];
+
+        print(name);
+
         setState(() {
-          username = snapshot.data().toString();
+          username = name;
+          email = email;
+          password = password;
+          university = university;
         });
       } else {
         print('Veritabanında böyle bir döküman yok.');
       }
     }).catchError((error) {
-      print('bir hata oluştu çünlü : $error');
+      print('bir hata oluştu çünkü : $error');
     });
   }
 
@@ -58,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Ana sayfa"),
+        title: Text("İlanlar"),
         actions: [
           IconButton(
             onPressed: () {
