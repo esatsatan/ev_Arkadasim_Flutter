@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ev_arkadasim/src/authentication/FirebaseAuth.dart';
 import 'package:ev_arkadasim/src/home/HomeScreen.dart';
 import 'package:ev_arkadasim/src/login/SignUp.dart';
@@ -42,33 +44,97 @@ class _SignInState extends State<SignIn> {
       final UserCredential authresult = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       final User? user = authresult.user;
+
       // giriş başarılı ise ana sayfaya geç
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (context) => HomeScreen(),
-        ),
-        (route) => false,
-      );
+      if (user != null) {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => HomeScreen(),
+          ),
+          (route) => false,
+        );
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            width: 200,
-            backgroundColor: Theme.of(context).colorScheme.secondary,
+            width: 250,
+            backgroundColor: Colors.lightBlue[100],
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
             behavior: SnackBarBehavior.floating,
-            content: const Text(
-              "Böyle bir kullanıcı bulunamadı.",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
+            content: const Center(
+              child: Text(
+                "Böyle bir kullanıcı bulunamadı",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
             ),
           ),
         );
       } else if (e.code == 'wrong-password') {
-        print('Şifrenizi tekrar deneyiniz');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            width: 250,
+            backgroundColor: Colors.lightBlue[100],
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            behavior: SnackBarBehavior.floating,
+            content: const Center(
+              child: Text(
+                "Şifrenizi Tekrar Deneyiniz",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ),
+        );
+      } else if (e.code == 'invalid-email') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            width: 250,
+            backgroundColor: Colors.lightBlue[100],
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            behavior: SnackBarBehavior.floating,
+            content: const Center(
+              child: Text(
+                " Lütfen geçerli bir email giriniz",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            width: 250,
+            backgroundColor: Colors.lightBlue[100],
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            behavior: SnackBarBehavior.floating,
+            content: const Center(
+              child: Text(
+                " Bir hata oluştu ",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ),
+        );
       }
     }
   }
@@ -179,12 +245,11 @@ class _SignInState extends State<SignIn> {
                                   _isLoading = true;
                                 });
                                 loginUser(
-                                    email: _emailController.text.trim(),
-                                    password: _passwordController.text.trim());
+                                    email: _emailController.text,
+                                    password: _passwordController.text);
                                 setState(() {
                                   _isLoading = false;
                                 });
-                                
                               }
                             },
                             child: _isLoading

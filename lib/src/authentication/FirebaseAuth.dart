@@ -61,7 +61,7 @@ class AuthService {
     try {
       await _auth.signOut();
     } catch (e) {
-      print('Çıkış yapıldı');
+      print('Çıkış yapılamadı');
     }
   }
 }

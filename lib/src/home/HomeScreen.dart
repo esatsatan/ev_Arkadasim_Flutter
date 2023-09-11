@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    print('kullanıcı idsi : ${FirebaseAuth.instance.currentUser!.uid}');
+    //print('kullanıcı idsi : ${FirebaseAuth.instance.currentUser!.uid}');
     getUsername();
   }
 
@@ -75,15 +75,18 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             onPressed: () {
+              setState(() {
+                _authService.userLogout();
+                setState(() {
+                  user == null;
+                });
+              });
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (context) => SignIn(),
                 ),
                 (route) => false,
               );
-              setState(() {
-                _authService.userLogout();
-              });
             },
             icon: Icon(
               Icons.logout,
