@@ -2,6 +2,9 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ev_arkadasim/src/componets/BottomNavigationBar.dart';
+import 'package:ev_arkadasim/src/home/Home.dart';
+import 'package:ev_arkadasim/src/home/ProfileScreen.dart';
+import 'package:ev_arkadasim/src/home/PublishScreen.dart';
 import 'package:ev_arkadasim/src/login/SignIn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String email = "";
   String password = "";
   String university = "";
-
+  /*
   @override
   void initState() {
     super.initState();
@@ -62,77 +65,73 @@ class _HomeScreenState extends State<HomeScreen> {
       print('bir hata oluştu çünkü : $error');
     });
   }
-
+*/
   //search textfield properties
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _focusNodePassword = FocusNode();
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("İlanlar"),
-        actions: [
-          IconButton(
-            onPressed: () {
-              setState(() {
-                _authService.userLogout();
+        appBar: AppBar(
+          title: Text("İlanlar"),
+          actions: [
+            IconButton(
+              onPressed: () {
                 setState(() {
-                  user == null;
+                  _authService.userLogout();
+                  setState(() {
+                    user == null;
+                  });
                 });
-              });
-              Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(
-                  builder: (context) => SignIn(),
-                ),
-                (route) => false,
-              );
-            },
-            icon: Icon(
-              Icons.logout,
-            ),
-          ),
-        ],
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: TextField(
-                        maxLines: 1,
-                        controller: _searchController,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(
-                            horizontal: 15,
-                          ),
-                          prefixIcon: Icon(Icons.search_sharp),
-                          hintText: "Üniversite Ara",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                        ),
-                      ),
-                    ),
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (context) => SignIn(),
                   ),
-                ],
+                  (route) => false,
+                );
+              },
+              icon: Icon(
+                Icons.logout,
               ),
-              Center(
-                child: Text('$username'),
-              ),
-              SizedBox(
-                height: 25,
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
-      ),
-      bottomNavigationBar: const BottomNavBar(),
-      // This trailing comma makes auto-formatting nicer for build methods.
-    );
+        body: IndexedStack(
+          index: _selectedIndex,
+          children: [
+            Home(),
+            PublishScreen(),
+            ProfileScreen(),
+          ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+            selectedItemColor: Colors.blue,
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
+            items: const [
+              BottomNavigationBarItem(
+                backgroundColor: Colors.blue,
+                icon: Icon(Icons.home),
+                label: 'Ana Sayfa',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.add),
+                label: 'İlan Yayımla',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.verified_user),
+                label: 'Profil',
+              ),
+            ])
+        // This trailing comma makes auto-formatting nicer for build methods.
+        );
   }
 }

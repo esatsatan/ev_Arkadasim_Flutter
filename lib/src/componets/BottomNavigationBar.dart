@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:ev_arkadasim/src/home/ProfileScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -82,7 +83,12 @@ class BottomNavBar extends StatelessWidget {
                     ),
                     IconButton(
                       onPressed: () {
-                        print('IconButton pressed ...');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfileScreen(),
+                          ),
+                        );
                       },
                       icon: Icon(
                         Icons.account_circle,
