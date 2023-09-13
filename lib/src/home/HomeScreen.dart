@@ -127,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 label: 'İlan Yayımla',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.verified_user),
+                icon: Icon(Icons.person),
                 label: 'Profil',
               ),
             ])
