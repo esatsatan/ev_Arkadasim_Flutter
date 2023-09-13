@@ -41,90 +41,111 @@ class _PublishScreenState extends State<PublishScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              10.0,
-            ),
-          ),
-          elevation: 5,
-          margin: EdgeInsets.all(20),
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             children: [
-              ListTile(
-                title: Text('Sigara Kullanıyor musunuz?'),
-                trailing: Switch(
-                  value: smoke,
-                  onChanged: _toggleSmoke,
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                elevation: 5,
+                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                child: ListTile(
+                  leading: Icon(
+                    Icons.person,
+                    size: 50,
+                  ),
+                  title: Text('Antalya'),
+                  subtitle: Text('Akdeniz Üniversitesi'),
                 ),
               ),
-              ListTile(
-                title: Text(
-                  'Evci hayvanınız var mı?',
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    10.0,
+                  ),
                 ),
-                trailing: Switch(
-                  value: hasPets,
-                  onChanged: _togglePets,
-                ),
-              ),
-              ListTile(
-                title: Text('Cinsiyetiniz :'),
-                trailing: DropdownButton<String>(
-                  value: gender,
-                  onChanged: _setGender,
-                  items: <String>['Belirtilmemiş', 'Erkek', 'Kadın']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
-              ),
-              ListTile(
-                title: Text('Evin Fotoğraflarını Ekleyin:'),
-                trailing: ElevatedButton(
-                  onPressed: _selectImage,
-                  child: Text('Fotoğraf Seç'),
-                ),
-              ),
+                elevation: 5,
+                margin: EdgeInsets.all(20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ListTile(
+                      title: Text('Sigara Kullanıyor musunuz?'),
+                      trailing: Switch(
+                        value: smoke,
+                        onChanged: _toggleSmoke,
+                      ),
+                    ),
+                    ListTile(
+                      title: Text(
+                        'Evci hayvanınız var mı?',
+                      ),
+                      trailing: Switch(
+                        value: hasPets,
+                        onChanged: _togglePets,
+                      ),
+                    ),
+                    ListTile(
+                      title: Text('Cinsiyetiniz :'),
+                      trailing: DropdownButton<String>(
+                        value: gender,
+                        onChanged: _setGender,
+                        items: <String>['Belirtilmemiş', 'Erkek', 'Kadın']
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    ListTile(
+                      title: Text('Evin Fotoğraflarını Ekleyin:'),
+                      trailing: ElevatedButton(
+                        onPressed: _selectImage,
+                        child: Text('Fotoğraf Seç'),
+                      ),
+                    ),
 
-              // Seçilen fotoğrafları göstermek için bir widget ekleyin
-              // Örnek olarak GridView.builder kullanabilirsiniz.
-              // Ayrıca, açıklama için bir TextField ekleyin:
-              Padding(
-                padding: EdgeInsets.all(15),
-                child: TextField(
-                  controller: descriptionController,
-                  decoration: InputDecoration(
-                    labelText: 'Açıklama giriniz',
-                    border: OutlineInputBorder(),
-                    hintText: 'İlan ile ilgili açıklama giriniz',
-                    prefixIcon: Icon(Icons.description),
-                  ),
-                  maxLines: 5,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    minimumSize: const Size.fromHeight(50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                    // Seçilen fotoğrafları göstermek için bir widget ekleyin
+                    // Örnek olarak GridView.builder kullanabilirsiniz.
+                    // Ayrıca, açıklama için bir TextField ekleyin:
+                    Padding(
+                      padding: EdgeInsets.all(15),
+                      child: TextField(
+                        controller: descriptionController,
+                        decoration: InputDecoration(
+                          labelText: 'Açıklama giriniz',
+                          border: OutlineInputBorder(),
+                          hintText: 'İlan ile ilgili açıklama giriniz',
+                          prefixIcon: Icon(Icons.description),
+                        ),
+                        maxLines: 5,
+                      ),
                     ),
-                  ),
-                  onPressed: () {},
-                  child: Text(
-                    'İlanı yayınla',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          minimumSize: const Size.fromHeight(50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        onPressed: () {},
+                        child: Text(
+                          'İlanı yayınla',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
             ],
