@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 
 class PublishScreen extends StatefulWidget {
@@ -12,7 +13,7 @@ class _PublishScreenState extends State<PublishScreen> {
   bool smoke = false;
   String gender = 'Belirtilmemiş';
   bool hasPets = false;
-  List<String> selectedImages = [];
+  List<XFile> selectedImages = []; // seçilen fotoğrafları kaydetmek için.
   TextEditingController descriptionController = TextEditingController();
 
   void _toggleSmoke(bool value) {
@@ -33,9 +34,20 @@ class _PublishScreenState extends State<PublishScreen> {
     });
   }
 
-  void _selectImage() async {
+  Future<void> _pickImages() async {
     // Galeriden ev fotoğrafını seçme işlemi burada yapılır
     // Seçilen fotoğrafı selectedImages listesine eklemelisiniz
+    final picker = ImagePicker();
+    final pickedImages = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedImages != null) {
+      setState(() {
+        selectedImages = pickedImages as List<XFile>;
+        String imagePath = pickedImages.path;
+      });
+    } else {
+      print('Kullanıcı fotoğraf seçmeyi iptal etti.');
+    }
   }
 
   @override
@@ -50,7 +62,7 @@ class _PublishScreenState extends State<PublishScreen> {
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 elevation: 5,
-                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                margin: EdgeInsets.fromLTRB(12, 12, 12, 2),
                 child: ListTile(
                   leading: Icon(
                     Icons.person,
@@ -67,7 +79,7 @@ class _PublishScreenState extends State<PublishScreen> {
                   ),
                 ),
                 elevation: 5,
-                margin: EdgeInsets.all(20),
+                margin: EdgeInsets.all(12),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -104,7 +116,7 @@ class _PublishScreenState extends State<PublishScreen> {
                     ListTile(
                       title: Text('Evin Fotoğraflarını Ekleyin:'),
                       trailing: ElevatedButton(
-                        onPressed: _selectImage,
+                        onPressed: _pickImages,
                         child: Text('Fotoğraf Seç'),
                       ),
                     ),
@@ -146,6 +158,21 @@ class _PublishScreenState extends State<PublishScreen> {
                       ),
                     ),
                   ],
+                ),
+              ),
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                elevation: 5,
+                margin: EdgeInsets.fromLTRB(12, 2, 12, 2),
+                child: ListTile(
+                  leading: Icon(
+                    Icons.person,
+                    size: 50,
+                  ),
+                  title: Text('Antalya'),
+                  subtitle: Text('Akdeniz Üniversitesi'),
                 ),
               ),
             ],
