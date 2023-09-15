@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,8 +15,9 @@ class _PublishScreenState extends State<PublishScreen> {
   bool smoke = false;
   String gender = 'Belirtilmemiş';
   bool hasPets = false;
-  List<XFile> selectedImages = []; // seçilen fotoğrafları kaydetmek için.
+  List<XFile> imageFileList = []; // seçilen fotoğrafları kaydetmek için.
   TextEditingController descriptionController = TextEditingController();
+  bool isCardExpanded = false;
 
   void _toggleSmoke(bool value) {
     setState(() {
@@ -37,17 +40,35 @@ class _PublishScreenState extends State<PublishScreen> {
   Future<void> _pickImages() async {
     // Galeriden ev fotoğrafını seçme işlemi burada yapılır
     // Seçilen fotoğrafı selectedImages listesine eklemelisiniz
-    final picker = ImagePicker();
-    final pickedImages = await picker.pickImage(source: ImageSource.gallery);
 
+    final picker = ImagePicker();
+    final List<XFile> selectedImages = await picker.pickMultiImage();
+
+    if (selectedImages.isNotEmpty) {
+      setState(() {
+        imageFileList = selectedImages;
+        isCardExpanded = true;
+      });
+    }
+    /*final picker = ImagePicker();
+    final pickedImages = await picker.pickMultiImage(
+        maxWidth: 50, maxHeight: 50, imageQuality: null);
+
+    // ignore: unnecessary_null_comparison
+    final List<XFile> pickedFileList = <XFile>[];
     if (pickedImages != null) {
       setState(() {
-        selectedImages = pickedImages as List<XFile>;
-        String imagePath = pickedImages.path;
+        pickedFileList.add(pickedImages);
       });
     } else {
       print('Kullanıcı fotoğraf seçmeyi iptal etti.');
     }
+    */
+  }
+
+  @override
+  void dispose() {
+    descriptionController.dispose();
   }
 
   @override
@@ -68,8 +89,55 @@ class _PublishScreenState extends State<PublishScreen> {
                     Icons.person,
                     size: 50,
                   ),
-                  title: Text('Antalya'),
+                  title: Text('Esat Satan'),
                   subtitle: Text('Akdeniz Üniversitesi'),
+                ),
+              ),
+              // seçilen Fotoğrafları bura cardın içine ekle
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                elevation: 5,
+                margin: EdgeInsets.fromLTRB(12, 12, 12, 2),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        onPressed: _pickImages,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          minimumSize: const Size.fromHeight(50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: Text(
+                          'Fotoğraf seçmek için tıklayın',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
+                    ),
+                    if (isCardExpanded)
+                      Row(
+                        children: [
+                          // ignore: unused_local_variable
+                          for (XFile image in imageFileList)
+                            Image.file(
+                              File(image.path),
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            ),
+                        ],
+                      )
+                    // buraya fotoğrafları ekle
+                  ],
                 ),
               ),
               Card(
@@ -158,21 +226,6 @@ class _PublishScreenState extends State<PublishScreen> {
                       ),
                     ),
                   ],
-                ),
-              ),
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                elevation: 5,
-                margin: EdgeInsets.fromLTRB(12, 2, 12, 2),
-                child: ListTile(
-                  leading: Icon(
-                    Icons.person,
-                    size: 50,
-                  ),
-                  title: Text('Antalya'),
-                  subtitle: Text('Akdeniz Üniversitesi'),
                 ),
               ),
             ],
