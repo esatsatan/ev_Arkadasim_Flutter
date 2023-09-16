@@ -135,8 +135,8 @@ class _PublishScreenState extends State<PublishScreen> {
                             scrollDirection: Axis.horizontal,
                             itemCount: imageFileList.length,
                             itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(2.0),
+                              return Container(
+                                padding: EdgeInsets.only(right: 3),
                                 child: Image.file(
                                   File(imageFileList[index].path),
                                   width: 100,
@@ -178,7 +178,7 @@ class _PublishScreenState extends State<PublishScreen> {
                     ),
                     ListTile(
                       title: Text(
-                        'Evci hayvanınız var mı?',
+                        'Evcil hayvanınız var mı?',
                       ),
                       trailing: Switch(
                         value: hasPets,
@@ -199,17 +199,6 @@ class _PublishScreenState extends State<PublishScreen> {
                         }).toList(),
                       ),
                     ),
-                    ListTile(
-                      title: Text('Evin Fotoğraflarını Ekleyin:'),
-                      trailing: ElevatedButton(
-                        onPressed: _pickImages,
-                        child: Text('Fotoğraf Seç'),
-                      ),
-                    ),
-
-                    // Seçilen fotoğrafları göstermek için bir widget ekleyin
-                    // Örnek olarak GridView.builder kullanabilirsiniz.
-                    // Ayrıca, açıklama için bir TextField ekleyin:
                     Padding(
                       padding: EdgeInsets.all(15),
                       child: TextField(
