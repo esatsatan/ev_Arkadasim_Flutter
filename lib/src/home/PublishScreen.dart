@@ -16,6 +16,7 @@ class _PublishScreenState extends State<PublishScreen> {
   String gender = 'Belirtilmemiş';
   bool hasPets = false;
   List<XFile> imageFileList = []; // seçilen fotoğrafları kaydetmek için.
+  late XFile deneme;
   TextEditingController descriptionController = TextEditingController();
   bool isCardExpanded = false;
 
@@ -123,20 +124,37 @@ class _PublishScreenState extends State<PublishScreen> {
                         ),
                       ),
                     ),
-                    if (isCardExpanded)
-                      Row(
-                        children: [
-                          // ignore: unused_local_variable
-                          for (XFile image in imageFileList)
-                            Image.file(
-                              File(image.path),
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            ),
-                        ],
-                      )
+
                     // buraya fotoğrafları ekle
+                    if (isCardExpanded)
+                      Container(
+                        width: double.infinity,
+                        height: 100,
+                        margin: EdgeInsets.all(8),
+                        child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: imageFileList.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Image.file(
+                                  File(imageFileList[index].path),
+                                  width: 100,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                ),
+                              );
+                            }),
+                      ),
+                    /*
+                    for (XFile image in imageFileList)
+                      Image.file(
+                        File(image.path),
+                        width: 80,
+                        height: 80,
+                        fit: BoxFit.cover,
+                      ),
+                      */
                   ],
                 ),
               ),
