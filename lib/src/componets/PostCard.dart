@@ -1,7 +1,20 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-class PostCard extends StatelessWidget {
+class PostCard extends StatefulWidget {
   const PostCard({super.key});
+
+  @override
+  State<PostCard> createState() => _PostCardState();
+}
+
+class _PostCardState extends State<PostCard> {
+  final List<String> imageList = [
+    'https://example.com/image1.jpg',
+    'https://example.com/image2.jpg',
+    'https://example.com/image3.jpg',
+    // İlgilendiğiniz kadar daha fazla resim ekleyebilirsiniz
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +27,26 @@ class PostCard extends StatelessWidget {
           ListTile(
             leading: CircleAvatar(
               // İlanı yayınlayanın profil resmi buraya gelebilir
+
               backgroundColor: Colors.grey, // Varsayılan renk
             ),
-            title: Text('İlanı Yayınlayanın Adı Soyadı'),
+            title: Text('Esat Satan'),
           ),
           // Fotoğrafların olduğu bölüm
+          Padding(
+            padding: EdgeInsets.all(2.0),
+            child: CarouselSlider(
+              options: CarouselOptions(
+                height: 200.0, // Görüntü kaydırıcısının yüksekliği
+                enlargeCenterPage: true, // Orta sayfanın büyütülmesi
+                autoPlay: true, // Otomatik oynatma
+                aspectRatio: 16 / 9, // Görüntü oranı
+              ),
+              items: [],
+            ),
+          ),
+
+          /*
           SingleChildScrollView(
             scrollDirection: Axis.horizontal, // Yatay kaydırma
             child: Row(
@@ -30,19 +58,20 @@ class PostCard extends StatelessWidget {
               ],
             ),
           ),
+          */
           // İlanı yayınlayanın üniversitesi
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(10.0),
             child: Text(
-              'Üniversite: İlanı Yayınlayanın Üniversitesi',
-              style: TextStyle(fontSize: 20.0),
+              'Akdeniz Üniversitesi',
+              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
             ),
           ),
           // İlanı yayınlayanın açıklaması
           Padding(
             padding: EdgeInsets.all(16.0),
             child: Text(
-              'İlanı Yayınlayanın Açıklaması Buraya Gelecek.',
+              'Akdeniz üniversitesine yatay geçiş yaptım. 3 + 1 eve geçtim 2 tane ev arkadaşına ihtiacım var.',
             ),
           ),
           // Evcil hayvan ve sigara bilgileri
