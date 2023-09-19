@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ev_arkadasim/src/componets/PostCard.dart';
 import 'package:ev_arkadasim/src/login/SignIn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -60,47 +61,60 @@ class _HomeState extends State<Home> {
 
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _focusNodePassword = FocusNode();
+  List<String> ilanlar = ["İlan 1", "İlan 2", "İlan 3"];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: TextField(
-                        maxLines: 1,
-                        controller: _searchController,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(
-                            horizontal: 15,
-                          ),
-                          prefixIcon: Icon(Icons.search_sharp),
-                          hintText: "Üniversite Ara",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: TextField(
+              maxLines: 1,
+              controller: _searchController,
+              onChanged: ((value) {
+                //Arama işlemleri burada gerçekleştirilebilir.
+                // Örneğin, ilanlar listesini filtrelemek için kullanılabilir.
+              }),
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 15,
+                ),
+                prefixIcon: Icon(Icons.search_sharp),
+                hintText: "Üniversite Ara",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25),
+                ),
               ),
-              Center(
-                child: Text('$username'),
-              ),
-              SizedBox(
-                height: 25,
-              ),
-            ],
+            ),
           ),
-        ),
+          const Padding(
+            padding: EdgeInsets.all(15.0),
+            child: Text(
+              'Güncel İlanlar',
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 22,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 25,
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: 10, // Örnek bir öğe sayısı
+              itemBuilder: (BuildContext context, int index) {
+                return const PostCard();
+              },
+            ),
+          ),
+        ],
       ),
+
       // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
