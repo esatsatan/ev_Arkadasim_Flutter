@@ -21,7 +21,7 @@ class _PostCardState extends State<PostCard> {
             leading: CircleAvatar(
               // İlanı yayınlayanın profil resmi buraya gelebilir
 
-              backgroundColor: Colors.grey, // Varsayılan renk
+              backgroundColor: Colors.blue, // Varsayılan renk
             ),
             title: Text('Esat Satan'),
           ),
@@ -70,7 +70,29 @@ class _PostCardState extends State<PostCard> {
             padding: EdgeInsets.all(10.0),
             child: Text(
               'Akdeniz Üniversitesi',
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(Icons.phone, size: 17),
+                Padding(
+                  padding: const EdgeInsets.only(left: 2),
+                  child: Text(
+                    '05437603367',
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           // İlanı yayınlayanın açıklaması
