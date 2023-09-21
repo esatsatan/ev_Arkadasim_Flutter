@@ -9,13 +9,6 @@ class PostCard extends StatefulWidget {
 }
 
 class _PostCardState extends State<PostCard> {
-  final List<String> imageList = [
-    'https://example.com/image1.jpg',
-    'https://example.com/image2.jpg',
-    'https://example.com/image3.jpg',
-    // İlgilendiğiniz kadar daha fazla resim ekleyebilirsiniz
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -42,7 +35,20 @@ class _PostCardState extends State<PostCard> {
                 autoPlay: true, // Otomatik oynatma
                 aspectRatio: 16 / 9, // Görüntü oranı
               ),
-              items: [],
+              items: [
+                Image.network(
+                  'https://img.freepik.com/free-photo/modern-residential-district-with-green-roof-balcony-generated-by-ai_188544-10276.jpg?w=1380&t=st=1695279269~exp=1695279869~hmac=0179b1308687a18e5799a2a4c8dd52f2a0cb31972c3153e7004a9b62c40d2b92',
+                  width: 200.0,
+                  height: 200.0,
+                  fit: BoxFit.cover,
+                ),
+                Image.network(
+                  'https://img.freepik.com/free-photo/house-isolated-field_1303-23773.jpg?w=1060&t=st=1695279401~exp=1695280001~hmac=e8cbde5a6d78898a7d42ed012767ec2db65df15acd3a10dd417d3b4e0db77ecc',
+                  width: 200.0,
+                  height: 200.0,
+                  fit: BoxFit.fitWidth,
+                ),
+              ],
             ),
           ),
 
@@ -74,6 +80,59 @@ class _PostCardState extends State<PostCard> {
               'Akdeniz üniversitesine yatay geçiş yaptım. 3 + 1 eve geçtim 2 tane ev arkadaşına ihtiacım var.',
             ),
           ),
+
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Icon(Icons.pets),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text('HAYIR'),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Icon(Icons.smoking_rooms),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text('EVET'),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Icon(Icons.person),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text('ERKEK'),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          /*
           // Evcil hayvan ve sigara bilgileri
           ListTile(
             leading: Icon(Icons.pets), // Evcil hayvan ikonu
@@ -88,6 +147,7 @@ class _PostCardState extends State<PostCard> {
             leading: Icon(Icons.person), // Cinsiyet ikonu
             title: Text('Cinsiyet: Erkek'),
           ),
+          */
         ],
       ),
     );
