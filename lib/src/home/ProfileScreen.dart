@@ -1,6 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
+import '../authentication/FirebaseAuth.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -10,6 +14,49 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  TextEditingController phoneNumberController = TextEditingController();
+  AuthService auth = AuthService();
+  User? user = FirebaseAuth.instance.currentUser;
+  String username = "";
+  String email = "";
+  String password = "";
+  String university = "";
+
+  Future getUsername() async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .get()
+        .then((DocumentSnapshot snapshot) {
+      if (snapshot.exists) {
+        final data = snapshot.data() as Map<String, dynamic>;
+
+        String Name = data['username'];
+        String Email = data['email'];
+        String Password = data['password'];
+        String University = data['university'];
+
+        setState(() {
+          username = Name;
+          email = Email;
+          password = Password;
+          university = University;
+        });
+      } else {
+        print('Veritabanında böyle bir döküman yok.');
+      }
+    }).catchError((error) {
+      print('bir hata oluştu çünkü : $error');
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    //print('kullanıcı idsi : ${FirebaseAuth.instance.currentUser!.uid}');
+    getUsername();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,19 +96,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              'Esat Satan',
+                              username.trim(),
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              'Bolu Abant İzzet Baysal Üniversitesi',
+                              university.trim(),
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              'esatsatan91@gmail.com',
+                              email.trim(),
                             ),
                           ),
                         ],

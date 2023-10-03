@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,6 +21,42 @@ class _PublishScreenState extends State<PublishScreen> {
   late XFile deneme;
   TextEditingController descriptionController = TextEditingController();
   bool isCardExpanded = false;
+
+  String university = "";
+  String username = "";
+
+  User? user = FirebaseAuth.instance.currentUser;
+
+  Future getUsername() async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .get()
+        .then((DocumentSnapshot snapshot) {
+      if (snapshot.exists) {
+        final data = snapshot.data() as Map<String, dynamic>;
+
+        String _name = data['username'];
+        String _university = data['university'];
+
+        setState(() {
+          username = _name;
+          university = _university;
+        });
+      } else {
+        print('Veritabanında böyle bir döküman yok.');
+      }
+    }).catchError((error) {
+      print('bir hata oluştu çünkü : $error');
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUsername();
+  }
 
   void _toggleSmoke(bool value) {
     setState(() {
@@ -69,7 +107,7 @@ class _PublishScreenState extends State<PublishScreen> {
 
   @override
   void dispose() {
-    descriptionController.dispose();
+    // descriptionController.dispose();
   }
 
   @override
@@ -90,8 +128,8 @@ class _PublishScreenState extends State<PublishScreen> {
                     Icons.person,
                     size: 50,
                   ),
-                  title: Text('Esat Satan'),
-                  subtitle: Text('Akdeniz Üniversitesi'),
+                  title: Text(username),
+                  subtitle: Text(university),
                 ),
               ),
               // seçilen Fotoğrafları bura cardın içine ekle
