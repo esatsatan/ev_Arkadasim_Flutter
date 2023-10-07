@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ev_arkadasim/src/utils/data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -132,7 +134,33 @@ class _PublishScreenState extends State<PublishScreen> {
                   subtitle: Text(university),
                 ),
               ),
+              //Üniversite seçme işlemleri
+              TypeAheadField(
+                textFieldConfiguration: TextFieldConfiguration(
+                    autofocus: true,
+                    style: DefaultTextStyle.of(context)
+                        .style
+                        .copyWith(fontStyle: FontStyle.italic),
+                    decoration: InputDecoration(border: OutlineInputBorder())),
+                suggestionsCallback: (pattern) =>
+                    BackendService.getSuggestions(pattern),
+                itemBuilder: (context, suggestion) {
+                  return ListTile(
+                    leading: Icon(Icons.shopping_cart),
+                    title: Text(suggestion['name']),
+                    subtitle: Text('\$${suggestion['price']}'),
+                  );
+                },
+                onSuggestionSelected: (suggestion) {},
+              ),
+
               // seçilen Fotoğrafları bura cardın içine ekle
+              /*Image(
+                image: AssetImage(
+                  'assets/aibü-removebg-preview.ico',
+                ),
+              ),
+              */
               Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
