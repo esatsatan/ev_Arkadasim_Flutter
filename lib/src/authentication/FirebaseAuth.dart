@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  var verificationId = '';
 
   Future<User?> createUser(
       {required String email,
@@ -63,5 +64,29 @@ class AuthService {
     } catch (e) {
       print('Çıkış yapılamadı');
     }
+  }
+
+  Future<void> loginWithPhoneNumber(String phoneNumber) async {
+    await _auth.verifyPhoneNumber(
+      phoneNumber: '+90$phoneNumber}',
+      timeout: const Duration(seconds: 60),
+      verificationCompleted: (PhoneAuthCredential credential) {
+
+      },
+      verificationFailed: (FirebaseAuthException e) {
+        if (e.code == 'invalid-phone-number') {}
+      },
+      codeSent: (String verificationId, int? resendToken) {
+        //OTP = verificationId;
+        
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {},
+    );
+  }
+
+  void handleVerificationCompleted(PhoneAuthCredential credential) {
+    // Bu fonksiyonda doğrulama bilgileri ile özel işlemleri gerçekleştirebilirsiniz.
+    // Örneğin, bir kullanıcı doğrulandıktan sonra özel bir ekranı göstermek gibi.
+    print('Doğrulama tamamlandı, özel işlemler gerçekleştirilebilir.');
   }
 }

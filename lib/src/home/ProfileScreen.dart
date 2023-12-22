@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../authentication/FirebaseAuth.dart';
+import '../verification/OTPscreen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -22,6 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String password = "";
   String university = "";
 
+  AuthService _authService = AuthService();
   Future getUsername() async {
     await FirebaseFirestore.instance
         .collection('users')
@@ -59,6 +61,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController _phoneNumberController = TextEditingController();
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -116,6 +120,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     )
                   ],
                 ),
+              ),
+            ),
+            // Burada telefon doğrulaması için gerekli componentler yazılır.
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      controller: _phoneNumberController,
+                      keyboardType: TextInputType.phone,
+                      maxLength: 11,
+                      decoration: InputDecoration(
+                        labelText: 'Telefon numarası',
+                        prefixIcon: const Icon(Icons.phone_in_talk_sharp),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 16.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Doğrulama işlemleri burada gerçekleştirilebilir.
+                      // Örneğin, telefon numarasını bir API'ye gönderip doğrulama kodu alabilirsiniz.
+                      // Bu örnekte sadece bir mesaj yazdırıyorum.
+                      //_authService.loginWithPhoneNumber(_phoneNumberController.text, OTP)
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return MyPhone();
+                          },
+                        ),
+                      );
+
+                      //_authService.loginWithPhoneNumber(_phoneNumberController.text);
+                    },
+                    child: Text('Doğrula'),
+                  ),
+                ],
               ),
             ),
             Padding(

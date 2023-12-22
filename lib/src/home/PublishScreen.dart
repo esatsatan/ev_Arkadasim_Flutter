@@ -78,6 +78,8 @@ class _PublishScreenState extends State<PublishScreen> {
     });
   }
 
+  
+
   Future<void> _pickImages() async {
     // Galeriden ev fotoğrafını seçme işlemi burada yapılır
     // Seçilen fotoğrafı selectedImages listesine eklemelisiniz
@@ -108,11 +110,6 @@ class _PublishScreenState extends State<PublishScreen> {
   }
 
   @override
-  void dispose() {
-    // descriptionController.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -134,33 +131,6 @@ class _PublishScreenState extends State<PublishScreen> {
                   subtitle: Text(university),
                 ),
               ),
-              //Üniversite seçme işlemleri
-              TypeAheadField(
-                textFieldConfiguration: TextFieldConfiguration(
-                    autofocus: true,
-                    style: DefaultTextStyle.of(context)
-                        .style
-                        .copyWith(fontStyle: FontStyle.italic),
-                    decoration: InputDecoration(border: OutlineInputBorder())),
-                suggestionsCallback: (pattern) =>
-                    BackendService.getSuggestions(pattern),
-                itemBuilder: (context, suggestion) {
-                  return ListTile(
-                    leading: Icon(Icons.shopping_cart),
-                    title: Text(suggestion['name']),
-                    subtitle: Text('\$${suggestion['price']}'),
-                  );
-                },
-                onSuggestionSelected: (suggestion) {},
-              ),
-
-              // seçilen Fotoğrafları bura cardın içine ekle
-              /*Image(
-                image: AssetImage(
-                  'assets/aibü-removebg-preview.ico',
-                ),
-              ),
-              */
               Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:ev_arkadasim/src/authentication/FirebaseAuth.dart';
 import 'package:ev_arkadasim/src/home/HomeScreen.dart';
+import 'package:ev_arkadasim/src/login/PhoneLogin.dart';
 import 'package:ev_arkadasim/src/login/SignUp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -285,6 +286,34 @@ class _SignInState extends State<SignIn> {
                                   );
                                 },
                                 child: const Text("Kayıt olun"),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Text('Veya'),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Telefon numarası ile'),
+                              TextButton(
+                                onPressed: () {
+                                  _formKey.currentState?.reset();
+
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return PhoneLogin();
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: const Text("Giriş Yapın"),
                               ),
                             ],
                           ),
