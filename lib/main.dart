@@ -1,5 +1,6 @@
+import 'package:ev_arkadasim/src/authentication/AuthRepository.dart';
 import 'package:ev_arkadasim/src/authentication/VerifyEmailScreen.dart';
-import 'package:ev_arkadasim/src/verification/OTPscreen.dart';
+import 'package:ev_arkadasim/src/verification/PhoneVerifyScreen.dart';
 import 'package:ev_arkadasim/src/home/HomeScreen.dart';
 import 'package:ev_arkadasim/src/login/SignIn.dart';
 import 'package:ev_arkadasim/src/login/SplashScreen.dart';

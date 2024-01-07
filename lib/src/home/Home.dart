@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../authentication/FirebaseAuth.dart';
+import '../authentication/AuthRepository.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});

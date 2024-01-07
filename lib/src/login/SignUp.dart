@@ -1,4 +1,4 @@
-import 'package:ev_arkadasim/src/authentication/FirebaseAuth.dart';
+import 'package:ev_arkadasim/src/authentication/AuthRepository.dart';
 import 'package:ev_arkadasim/src/authentication/VerifyEmailScreen.dart';
 import 'package:ev_arkadasim/src/home/HomeScreen.dart';
 import 'package:ev_arkadasim/src/login/SignIn.dart';

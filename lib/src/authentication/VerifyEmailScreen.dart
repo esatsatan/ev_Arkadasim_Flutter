@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:ev_arkadasim/src/authentication/FirebaseAuth.dart';
+import 'package:ev_arkadasim/src/authentication/AuthRepository.dart';
 import 'package:ev_arkadasim/src/home/HomeScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';

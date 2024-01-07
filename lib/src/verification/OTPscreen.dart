@@ -1,26 +1,61 @@
-import 'package:ev_arkadasim/src/verification/VerifyPhoneCodeScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:pinput/pinput.dart';
 
-class MyPhone extends StatefulWidget {
-  const MyPhone({Key? key}) : super(key: key);
+import '../authentication/AuthRepository.dart';
+
+
+class MyVerify extends StatefulWidget {
+  const MyVerify({Key? key}) : super(key: key);
 
   @override
-  State<MyPhone> createState() => _MyPhoneState();
+  State<MyVerify> createState() => _MyVerifyState();
 }
 
-class _MyPhoneState extends State<MyPhone> {
-  TextEditingController countryController = TextEditingController();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    countryController.text = "+90";
-    super.initState();
-  }
+class _MyVerifyState extends State<MyVerify> {
+  AuthService _authService = AuthService();
+  String verificationId = "";
 
   @override
   Widget build(BuildContext context) {
+    final defaultPinTheme = PinTheme(
+      width: 56,
+      height: 56,
+      textStyle: TextStyle(
+          fontSize: 20,
+          color: Color.fromRGBO(30, 60, 87, 1),
+          fontWeight: FontWeight.w600),
+      decoration: BoxDecoration(
+        border: Border.all(color: Color.fromRGBO(234, 239, 243, 1)),
+        borderRadius: BorderRadius.circular(20),
+      ),
+    );
+
+    final focusedPinTheme = defaultPinTheme.copyDecorationWith(
+      border: Border.all(color: Color.fromRGBO(114, 178, 238, 1)),
+      borderRadius: BorderRadius.circular(8),
+    );
+
+    final submittedPinTheme = defaultPinTheme.copyWith(
+      decoration: defaultPinTheme.decoration?.copyWith(
+        color: Color.fromRGBO(234, 239, 243, 1),
+      ),
+    );
+
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back_ios_rounded,
+            color: Colors.black,
+          ),
+        ),
+        elevation: 0,
+      ),
       body: Container(
         margin: EdgeInsets.only(left: 25, right: 25),
         alignment: Alignment.center,
@@ -28,7 +63,6 @@ class _MyPhoneState extends State<MyPhone> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              
               SizedBox(
                 height: 25,
               ),
@@ -49,45 +83,15 @@ class _MyPhoneState extends State<MyPhone> {
               SizedBox(
                 height: 30,
               ),
-              Container(
-                height: 55,
-                decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: Colors.grey),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 10,
-                    ),
-                    SizedBox(
-                      width: 40,
-                      child: TextField(
-                        controller: countryController,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      "|",
-                      style: TextStyle(fontSize: 33, color: Colors.grey),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                        child: TextField(
-                      keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Phone",
-                      ),
-                    ))
-                  ],
-                ),
-              ),
+              Pinput(
+                  length: 6,
+                  //defaultPinTheme: defaultPinTheme,
+                  // focusedPinTheme: focusedPinTheme,
+                  // submittedPinTheme: submittedPinTheme
+                  showCursor: true,
+                  onCompleted: (pin) {
+                    _authService.verifyOtp(verificationId, pin);
+                  }),
               SizedBox(
                 height: 20,
               ),
@@ -100,16 +104,20 @@ class _MyPhoneState extends State<MyPhone> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return MyVerify();
-                          },
-                        ),
-                      );
+                      //burada giren kodu doğrula
                     },
-                    child: Text("Send the code")),
+                    child: Text("Telefon Numarasını Doğrula")),
+              ),
+              Row(
+                children: [
+                  TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Edit Phone Number ?",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                ],
               )
             ],
           ),

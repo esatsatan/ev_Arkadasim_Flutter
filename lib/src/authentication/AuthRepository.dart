@@ -70,15 +70,12 @@ class AuthService {
     await _auth.verifyPhoneNumber(
       phoneNumber: '+90$phoneNumber}',
       timeout: const Duration(seconds: 60),
-      verificationCompleted: (PhoneAuthCredential credential) {
-
-      },
+      verificationCompleted: (PhoneAuthCredential credential) {},
       verificationFailed: (FirebaseAuthException e) {
         if (e.code == 'invalid-phone-number') {}
       },
       codeSent: (String verificationId, int? resendToken) {
         //OTP = verificationId;
-        
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
     );
@@ -89,4 +86,24 @@ class AuthService {
     // Örneğin, bir kullanıcı doğrulandıktan sonra özel bir ekranı göstermek gibi.
     print('Doğrulama tamamlandı, özel işlemler gerçekleştirilebilir.');
   }
+
+  Future<void> verifyOtp(String verificationId, String otp) async {
+    PhoneAuthCredential credential = PhoneAuthProvider.credential(
+      verificationId: verificationId,
+      smsCode: otp,
+    );
+
+    try {
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      print("OTP doğrulama başarılı!");
+      // Kullanıcı başarılı bir şekilde doğrulandı.
+      // Burada istediğiniz işlemleri gerçekleştirebilirsiniz.
+    } catch (e) {
+      print("OTP doğrulama hatası: $e");
+      // Doğrulama hatası, kullanıcının girdiği OTP kodu geçersiz.
+      // Hata mesajını kontrol edebilir ve kullanıcıya uygun bir geri bildirimde bulunabilirsiniz.
+    }
+  }
+
+
 }

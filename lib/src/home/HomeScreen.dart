@@ -12,7 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-import '../authentication/FirebaseAuth.dart';
+import '../authentication/AuthRepository.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
