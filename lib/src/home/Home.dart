@@ -26,7 +26,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     //print('kullanıcı idsi : ${FirebaseAuth.instance.currentUser!.uid}');
-    getUsername();
+    //getUsername();
   }
 
   Future getUsername() async {

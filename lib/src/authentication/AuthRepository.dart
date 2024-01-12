@@ -19,11 +19,11 @@ class AuthService {
 
       print(credential.user!.uid);
 
-      model.User user = model.User(
+      model.MyUser user = model.MyUser(
           username: username,
           email: email,
           password: password,
-          university: university);
+          university: university, userId: '');
 
       await _firestore
           .collection('users')

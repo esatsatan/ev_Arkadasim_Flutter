@@ -16,9 +16,9 @@ class AuthenticationState extends Equatable {
   const AuthenticationState.authenticated(User user)
       : this._(status: AuthenticationStatus.authenticated, user: user);
 
-  // yetkilendirilmwemiş kullanıcı
+  // yetkilendirilmemiş kullanıcı
   const AuthenticationState.unauthenticated()
-      : this._(status: AuthenticationStatus.authenticated);
+      : this._(status: AuthenticationStatus.unauthenticated);
 
   @override
   // TODO: implement props
