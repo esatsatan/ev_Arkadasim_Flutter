@@ -4,11 +4,14 @@ import 'package:ev_arkadasim/src/authentication/AuthRepository.dart';
 import 'package:ev_arkadasim/src/home/HomeScreen.dart';
 import 'package:ev_arkadasim/src/login/PhoneLogin.dart';
 import 'package:ev_arkadasim/src/login/SignUp.dart';
+import 'package:ev_arkadasim/src/statemanagement/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:ev_arkadasim/src/statemanagement/blocs/sign_in_bloc/bloc/signin_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class SignIn extends StatefulWidget {
@@ -143,10 +146,11 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      return HomeScreen();
-    } else {
-      return Scaffold(
+    return BlocProvider<SigninBloc>(
+      create: (context) => SigninBloc(
+          userAuthRepository:
+              context.read<AuthenticationBloc>().userAuthRepository),
+      child: Scaffold(
         backgroundColor:
             Colors.white, //Theme.of(context).colorScheme.secondaryContainer,
         body: Form(
@@ -323,7 +327,7 @@ class _SignInState extends State<SignIn> {
                   ),
                 ),
         ),
-      );
-    }
+      ),
+    );
   }
 }

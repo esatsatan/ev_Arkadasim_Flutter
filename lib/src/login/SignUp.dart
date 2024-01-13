@@ -2,11 +2,14 @@ import 'package:ev_arkadasim/src/authentication/AuthRepository.dart';
 import 'package:ev_arkadasim/src/authentication/VerifyEmailScreen.dart';
 import 'package:ev_arkadasim/src/home/HomeScreen.dart';
 import 'package:ev_arkadasim/src/login/SignIn.dart';
+import 'package:ev_arkadasim/src/statemanagement/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:ev_arkadasim/src/statemanagement/blocs/sign_up_bloc/bloc/signup_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -34,199 +37,198 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 30.0,
-          ),
-          child: Column(
-            //mainAxisAlignment: MainAxisAlignment.center,
-            //crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 100),
-              Text(
-                'Kayıt ol',
-                style: Theme.of(context).textTheme.headlineLarge,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                "Hesap oluştur",
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              const SizedBox(height: 35),
-              TextFormField(
-                controller: _controllerUsername,
-                focusNode: _focusNodeusername,
-                keyboardType: TextInputType.name,
-                decoration: InputDecoration(
-                  labelText: "Ad ve Soyad",
-                  prefixIcon: const Icon(Icons.person_outline),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+    return BlocProvider<SignupBloc>(
+      create: (context) => SignupBloc(
+          userAuthRepository:
+              context.read<AuthenticationBloc>().userAuthRepository),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 30.0,
+            ),
+            child: Column(
+              //mainAxisAlignment: MainAxisAlignment.center,
+              //crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 100),
+                Text(
+                  'Kayıt ol',
+                  style: Theme.of(context).textTheme.headlineLarge,
                 ),
-                validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return "Please enter username.";
-                  }
-                  return null;
-                },
-                onEditingComplete: () => _focusNodeusername.requestFocus(),
-              ),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: _controllerEmail,
-                focusNode: _focusNodeEmail,
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  labelText: "Email",
-                  prefixIcon: const Icon(Icons.email_outlined),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+                const SizedBox(
+                  height: 10,
                 ),
-                validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return "Email giriniz";
-                  }
-                  return null;
-                },
-                onEditingComplete: () => _focusNodeEmail.requestFocus(),
-              ),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: _controllerPassword,
-                obscureText: _obscurePassword,
-                focusNode: _focusNodePassword,
-                keyboardType: TextInputType.visiblePassword,
-                decoration: InputDecoration(
-                  labelText: "Password",
-                  prefixIcon: const Icon(Icons.password_outlined),
-                  suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _obscurePassword = !_obscurePassword;
-                        });
-                      },
-                      icon: _obscurePassword
-                          ? const Icon(Icons.visibility_outlined)
-                          : const Icon(Icons.visibility_off_outlined)),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+                Text(
+                  "Hesap oluştur",
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return "Lütfen Şifre giriniz";
-                  }
-                  return null;
-                },
-                onEditingComplete: () =>
-                    _focusNodeConfirmPassword.requestFocus(),
-              ),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: _controllerUni,
-                focusNode: _focusNodeUni,
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  labelText: "Üniversite",
-                  prefixIcon: const Icon(Icons.email_outlined),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return "Please enter email.";
-                  }
-                  return null;
-                },
-                onEditingComplete: () => _focusNodeUni.requestFocus(),
-              ),
-              const SizedBox(height: 50),
-              Column(
-                children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size.fromHeight(50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      backgroundColor: Colors.blue,
+                const SizedBox(height: 35),
+                TextFormField(
+                  controller: _controllerUsername,
+                  focusNode: _focusNodeusername,
+                  keyboardType: TextInputType.name,
+                  decoration: InputDecoration(
+                    labelText: "Ad ve Soyad",
+                    prefixIcon: const Icon(Icons.person_outline),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        setState(() {
-                          _isLoading = true;
-                        });
-                        _authService
-                            .createUser(
-                                email: _controllerEmail.text,
-                                password: _controllerPassword.text,
-                                username: _controllerUsername.text,
-                                university: _controllerUni.text)
-                            .then((value) => {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => VerifyEmailScreen(),
-                                    ),
-                                  ),
-                                });
-                        setState(() {
-                          _isLoading = false;
-                        });
-                      }
-                    },
-                    child: const Text(
-                      "Kayıt ol",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('Zaten hesabınız var mı?'),
-                      TextButton(
-                        onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => SignIn()),
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please enter username.";
+                    }
+                    return null;
+                  },
+                  onEditingComplete: () => _focusNodeusername.requestFocus(),
+                ),
+                const SizedBox(height: 10),
+                TextFormField(
+                  controller: _controllerEmail,
+                  focusNode: _focusNodeEmail,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    labelText: "Email",
+                    prefixIcon: const Icon(Icons.email_outlined),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return "Email giriniz";
+                    }
+                    return null;
+                  },
+                  onEditingComplete: () => _focusNodeEmail.requestFocus(),
+                ),
+                const SizedBox(height: 10),
+                TextFormField(
+                  controller: _controllerPassword,
+                  obscureText: _obscurePassword,
+                  focusNode: _focusNodePassword,
+                  keyboardType: TextInputType.visiblePassword,
+                  decoration: InputDecoration(
+                    labelText: "Password",
+                    prefixIcon: const Icon(Icons.password_outlined),
+                    suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _obscurePassword = !_obscurePassword;
+                          });
+                        },
+                        icon: _obscurePassword
+                            ? const Icon(Icons.visibility_outlined)
+                            : const Icon(Icons.visibility_off_outlined)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return "Lütfen Şifre giriniz";
+                    }
+                    return null;
+                  },
+                  onEditingComplete: () =>
+                      _focusNodeConfirmPassword.requestFocus(),
+                ),
+                const SizedBox(height: 10),
+                TextFormField(
+                  controller: _controllerUni,
+                  focusNode: _focusNodeUni,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    labelText: "Üniversite",
+                    prefixIcon: const Icon(Icons.email_outlined),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please enter email.";
+                    }
+                    return null;
+                  },
+                  onEditingComplete: () => _focusNodeUni.requestFocus(),
+                ),
+                const SizedBox(height: 50),
+                Column(
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Text(
-                          "Giriş Yapın",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                        backgroundColor: Colors.blue,
+                      ),
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          setState(() {
+                            _isLoading = true;
+                          });
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => VerifyEmailScreen(),
+                            ),
+                          );
+
+                          setState(() {
+                            _isLoading = false;
+                          });
+                        }
+                      },
+                      child: const Text(
+                        "Kayıt ol",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text('Zaten hesabınız var mı?'),
+                        TextButton(
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => SignIn()),
+                          ),
+                          child: Text(
+                            "Giriş Yapın",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ],
+                      ],
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
