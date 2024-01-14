@@ -2,6 +2,7 @@ import 'package:ev_arkadasim/src/authentication/AuthRepository.dart';
 import 'package:ev_arkadasim/src/authentication/VerifyEmailScreen.dart';
 import 'package:ev_arkadasim/src/home/HomeScreen.dart';
 import 'package:ev_arkadasim/src/login/SignIn.dart';
+import 'package:ev_arkadasim/src/model/user.dart';
 import 'package:ev_arkadasim/src/statemanagement/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:ev_arkadasim/src/statemanagement/blocs/sign_up_bloc/bloc/signup_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,8 +40,9 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return BlocProvider<SignupBloc>(
       create: (context) => SignupBloc(
-          userAuthRepository:
-              context.read<AuthenticationBloc>().userAuthRepository),
+        userAuthRepository:
+            context.read<AuthenticationBloc>().userAuthRepository,
+      ),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Form(
@@ -181,19 +183,16 @@ class _SignUpState extends State<SignUp> {
                       ),
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          setState(() {
-                            _isLoading = true;
-                          });
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => VerifyEmailScreen(),
-                            ),
+                          MyUser myuser = MyUser.empty;
+                          myuser = myuser.copyWith(
+                            email: _controllerEmail.text,
+                            password: _controllerPassword.text,
                           );
-
                           setState(() {
-                            _isLoading = false;
+                            context.read<SignupBloc>().add(SignUpRequired(
+                                  myuser,
+                                  _controllerPassword.text,
+                                ));
                           });
                         }
                       },

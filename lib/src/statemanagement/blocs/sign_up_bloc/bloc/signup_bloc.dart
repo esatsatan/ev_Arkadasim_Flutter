@@ -23,6 +23,10 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
             event.user.email,
             event.user.password,
             event.user.university);
+
+        // Gönderilen e-posta doğrulamasını beklet
+        await _userAuthRepository.sendEmailVerification();  
+
         await _userAuthRepository
             .setUserData(user); // add user data to firebase firestore.
       } catch (e) {

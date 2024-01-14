@@ -13,6 +13,8 @@ abstract class UserAuthRepository {
     String university,
   );
 
+  Future<void> sendEmailVerification();
+
   Future<void> signIn(
     String email,
     String password,

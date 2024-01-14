@@ -245,15 +245,13 @@ class _SignInState extends State<SignIn> {
                             ),
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                // user login process
                                 setState(() {
-                                  _isLoading = true;
-                                });
-                                loginUser(
-                                    email: _emailController.text,
-                                    password: _passwordController.text);
-                                setState(() {
-                                  _isLoading = false;
+                                  context.read<SigninBloc>().add(
+                                        SignInRequired(
+                                          _emailController.text,
+                                          _passwordController.text,
+                                        ),
+                                      );
                                 });
                               }
                             },
