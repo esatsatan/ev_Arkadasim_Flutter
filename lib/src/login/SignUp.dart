@@ -1,6 +1,6 @@
 import 'package:ev_arkadasim/src/authentication/AuthRepository.dart';
 import 'package:ev_arkadasim/src/authentication/VerifyEmailScreen.dart';
-import 'package:ev_arkadasim/src/home/HomeScreen.dart';
+import 'package:ev_arkadasim/src/home/BaseScreen.dart';
 import 'package:ev_arkadasim/src/login/SignIn.dart';
 import 'package:ev_arkadasim/src/model/user.dart';
 import 'package:ev_arkadasim/src/statemanagement/blocs/authentication_bloc/authentication_bloc.dart';
@@ -87,6 +87,8 @@ class _SignUpWtState extends State<SignUpWt> {
 
   bool signUpRequired = false;
 
+  bool isEmailVerified = false;
+
   @override
   Widget build(BuildContext context) {
     final signupBloc = BlocProvider.of<SignupBloc>(context);
@@ -96,7 +98,13 @@ class _SignUpWtState extends State<SignUpWt> {
         if (state is SignUpSuccess) {
           setState(() {
             signUpRequired = false;
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => BaseScreen(),
+              ), // AnaSayfa yerine kendi ana sayfanızı kullanın.
+            );
           });
+          if (state.isEmailVerified) {}
         } else if (state is SignUpProcess) {
           setState(() {
             signUpRequired = false;

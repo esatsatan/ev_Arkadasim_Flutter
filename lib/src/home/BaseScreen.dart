@@ -15,14 +15,14 @@ import 'package:flutter/src/widgets/framework.dart';
 import '../authentication/AuthRepository.dart';
 
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class BaseScreen extends StatefulWidget {
+  //const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<BaseScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<BaseScreen> {
   AuthService _authService = AuthService();
   User? user = FirebaseAuth.instance.currentUser;
   String username = "";

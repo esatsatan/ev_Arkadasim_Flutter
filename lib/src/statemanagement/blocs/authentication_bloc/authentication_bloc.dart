@@ -18,7 +18,6 @@ class AuthenticationBloc
     });
     on<AuthenticationUserChanged>((event, emit) {
       //if (event is AuthenticationLogoutRequested) {} // kontrol et
-
       if (event.user != null) {
         emit(AuthenticationState.authenticated(
             event.user!)); // eğer kullanıcı yetkilendirilmişse

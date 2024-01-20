@@ -1,4 +1,4 @@
-import 'package:ev_arkadasim/src/home/HomeScreen.dart';
+import 'package:ev_arkadasim/src/home/BaseScreen.dart';
 import 'package:ev_arkadasim/src/login/SignIn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -13,7 +13,7 @@ class SplashScreen extends StatelessWidget {
 
     // KULLANICI OTURUM AÇMIŞ MI AÇMAMMIŞ MI KONTROL ET.
     if (user != null) {
-      return HomeScreen();
+      return BaseScreen();
     } else {
       //return SignIn();
       return Container(

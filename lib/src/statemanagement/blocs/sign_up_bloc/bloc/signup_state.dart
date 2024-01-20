@@ -9,6 +9,13 @@ sealed class SignupState extends Equatable {
 
 final class SignupInitial extends SignupState {}
 
-class SignUpSuccess extends SignupState{}
+class SignUpSuccess extends SignupState{
+   final bool isEmailVerified;
+
+   SignUpSuccess({required this.isEmailVerified});
+
+   @override
+  List<Object> get props => [isEmailVerified];
+}
 class SignUpFailure extends SignupState{}
 class SignUpProcess extends SignupState{}

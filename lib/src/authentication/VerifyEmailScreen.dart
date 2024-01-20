@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:ev_arkadasim/src/authentication/AuthRepository.dart';
-import 'package:ev_arkadasim/src/home/HomeScreen.dart';
+import 'package:ev_arkadasim/src/home/BaseScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +26,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
     isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
 
     if (!isEmailVerified) {
-      _authService.sendVerificationEmail();
+      //_authService.sendVerificationEmail();
 
       timer = Timer.periodic(
           Duration(
@@ -108,7 +108,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                         // Düğmeye tıklanınca yapılacak işlemi burada tanımlayın.
                         Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
-                            builder: (context) => HomeScreen(),
+                            builder: (context) => BaseScreen(),
                           ),
                           (route) => false,
                         );

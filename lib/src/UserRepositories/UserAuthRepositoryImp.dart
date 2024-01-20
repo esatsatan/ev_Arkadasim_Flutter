@@ -69,16 +69,19 @@ class UserAuthRepositoryImp implements UserAuthRepository {
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
   }
-  
+
   @override
   Future<void> sendEmailVerification() async {
     try {
       User? user = _firebaseAuth.currentUser;
       if (user != null && !user.emailVerified) {
+        await user.reload(); // son kullanıcı bilgisini güncelle.
         await user.sendEmailVerification();
+        //return user.emailVerified; // tset et
       }
     } catch (e) {
       throw Exception("Email verification failed");
     }
+    //return false;
   }
 }

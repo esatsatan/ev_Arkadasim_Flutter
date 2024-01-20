@@ -25,7 +25,8 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
     });
 
     on<SignOutRequired>((event, emit) async {
-      await _userAuthRepository.signOut();  // kullanıcının oturumu kapatmasını dinler.
+      await _userAuthRepository
+          .signOut(); // kullanıcının oturumu kapatmasını dinler.
     });
   }
 }

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:ev_arkadasim/src/authentication/AuthRepository.dart';
-import 'package:ev_arkadasim/src/home/HomeScreen.dart';
+import 'package:ev_arkadasim/src/home/BaseScreen.dart';
 import 'package:ev_arkadasim/src/login/PhoneLogin.dart';
 import 'package:ev_arkadasim/src/login/SignUp.dart';
 import 'package:ev_arkadasim/src/statemanagement/blocs/authentication_bloc/authentication_bloc.dart';
@@ -53,7 +53,7 @@ class _SignInState extends State<SignIn> {
       if (user != null) {
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
-            builder: (context) => HomeScreen(),
+            builder: (context) => BaseScreen(),
           ),
           (route) => false,
         );
