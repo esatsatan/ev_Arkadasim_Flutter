@@ -35,6 +35,7 @@ class _SignUpState extends State<SignUp> {
   AuthService _authService = AuthService();
   bool _obscurePassword = true;
   bool _isLoading = false;
+  bool signUpRequired = false;
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +44,67 @@ class _SignUpState extends State<SignUp> {
         userAuthRepository:
             context.read<AuthenticationBloc>().userAuthRepository,
       ),
+      child: SignUpWt(),
+    );
+  }
+}
+
+class SignUpWt extends StatefulWidget {
+  @override
+  State<SignUpWt> createState() => _SignUpWtState();
+}
+
+class _SignUpWtState extends State<SignUpWt> {
+  //const SignUpWt({super.key});
+  final GlobalKey<FormState> _formKey = GlobalKey();
+
+  final FocusNode _focusNodeEmail = FocusNode();
+
+  final FocusNode _focusNodeusername = FocusNode();
+
+  final FocusNode _focusNodeUni = FocusNode();
+
+  final FocusNode _focusNodePassword = FocusNode();
+
+  final FocusNode _focusNodeConfirmPassword = FocusNode();
+
+  final TextEditingController _controllerUsername = TextEditingController();
+
+  final TextEditingController _controllerEmail = TextEditingController();
+
+  final TextEditingController _controllerPassword = TextEditingController();
+
+  final TextEditingController _controllerUni = TextEditingController();
+
+  final TextEditingController _controllerConFirmPassword =
+      TextEditingController();
+
+  AuthService _authService = AuthService();
+
+  bool _obscurePassword = true;
+
+  bool _isLoading = false;
+
+  bool signUpRequired = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final signupBloc = BlocProvider.of<SignupBloc>(context);
+
+    return BlocListener<SignupBloc, SignupState>(
+      listener: (context, state) {
+        if (state is SignUpSuccess) {
+          setState(() {
+            signUpRequired = false;
+          });
+        } else if (state is SignUpProcess) {
+          setState(() {
+            signUpRequired = false;
+          });
+        } else if (state is SignUpFailure) {
+          return;
+        }
+      },
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Form(
@@ -189,10 +251,12 @@ class _SignUpState extends State<SignUp> {
                             password: _controllerPassword.text,
                           );
                           setState(() {
-                            context.read<SignupBloc>().add(SignUpRequired(
-                                  myuser,
-                                  _controllerPassword.text,
-                                ));
+                            context.read<SignupBloc>().add(
+                                  SignUpRequired(
+                                    myuser,
+                                    _controllerPassword.text,
+                                  ),
+                                );
                           });
                         }
                       },
